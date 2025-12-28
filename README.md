@@ -12,7 +12,7 @@
 
 ## Technology Stack
 - **Backend:** Node.js, Express.js
-- **Database:** (Add your DB, e.g., MongoDB/PostgreSQL)
+- **Database:** PostgreSQL
 - **Authentication:** JWT
 - **Deployment:** Vercel
 - **Other:** TypeScript, dotenv, custom middlewares
