@@ -1,4 +1,3 @@
-// modules/users/user.route.ts
 import { Router } from 'express';
 import { auth } from '../../middlewares/auth.middleware';
 import { role } from '../../middlewares/role.middleware';

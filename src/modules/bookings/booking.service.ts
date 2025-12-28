@@ -1,4 +1,4 @@
-import { pool } from '../../config/db'; // adjust path as needed
+import { pool } from '../../config/db';
 import { AppError } from '../../utils/AppError';
 
 // Helper: Calculate total days (inclusive)
@@ -6,7 +6,7 @@ const calculateDays = (start: string, end: string): number => {
   const startDate = new Date(start);
   const endDate = new Date(end);
   const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
-  return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // inclusive
+  return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
 };
 
 // CREATE BOOKING
@@ -178,7 +178,7 @@ export const updateBookingStatus = async (
 
   const booking = bookingRes.rows[0];
 
-  // 🔹 prevent invalid state changes
+  // prevent invalid state changes
   if (booking.status !== 'active') {
     throw new AppError(
       `Booking already ${booking.status}`,
@@ -189,7 +189,7 @@ export const updateBookingStatus = async (
   const now = new Date();
   const rentStartDate = new Date(booking.rent_start_date);
 
-  // 🔹 CUSTOMER: cancel only before rent start date
+  // CUSTOMER: cancel only before rent start date
   if (status === 'cancelled') {
     if (now >= rentStartDate) {
       throw new AppError(
@@ -210,7 +210,7 @@ export const updateBookingStatus = async (
     );
   }
 
-  // 🔹 update booking
+  // update booking
   const updatedBookingRes = await pool.query(
     `UPDATE bookings
      SET status = $1

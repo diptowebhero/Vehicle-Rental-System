@@ -8,7 +8,7 @@ export const errorHandler = (
 ) => {
   console.error('Error:', err);
 
-  // Handle custom AppError (supports both status and statusCode for flexibility)
+  // Handle custom AppError
   if ((err.status || err.statusCode) && err.message) {
     const status = err.status || err.statusCode;
     return res.status(status).json({
@@ -21,23 +21,22 @@ export const errorHandler = (
   // PostgreSQL errors
   if (err.code) {
     switch (err.code) {
-      case '23505': // unique violation
+      case '23505':
         return res.status(409).json({
           success: false,
           message: 'Data already exists (duplicate entry)',
         });
-      case '23503': // foreign key violation
+      case '23503':
         return res.status(400).json({
           success: false,
           message: 'Invalid reference (e.g., vehicle or user not found)',
         });
-      case '22P02': // invalid text representation
+      case '22P02':
         return res.status(400).json({
           success: false,
           message: 'Invalid data format',
         });
       default:
-        // Other DB errors fall through
         break;
     }
   }

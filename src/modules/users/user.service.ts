@@ -35,7 +35,6 @@ export const updateUser = async (userId: number, data: any, currentUser: any) =>
     };
   }
 
-  // Filter only allowed fields from input data
   const fieldsToUpdate = Object.keys(data).filter(key =>
     allowedFields.includes(key)
   );
@@ -44,10 +43,9 @@ export const updateUser = async (userId: number, data: any, currentUser: any) =>
     throw { status: 400, message: 'No valid fields to update' };
   }
 
-  // Build dynamic SET clause with placeholders: $2, $3, ...
+
   const setClauses = fieldsToUpdate.map((field, index) => `${field} = $${index + 2}`);
 
-  // Values array: first $1 = userId, then the actual values
   const values = [userId]; // $1
   fieldsToUpdate.forEach(field => {
     values.push(data[field]);
@@ -69,7 +67,6 @@ export const updateUser = async (userId: number, data: any, currentUser: any) =>
 
     return result.rows[0];
   } catch (error: any) {
-    // Handle unique constraint violation (e.g., duplicate email)
     if (error.code === '23505') {
       const field = error.constraint?.includes('email') ? 'Email' : 'Field';
       throw { status: 409, message: `${field} already exists` };
@@ -79,7 +76,6 @@ export const updateUser = async (userId: number, data: any, currentUser: any) =>
 };
 
 export const deleteUser = async (userId: number) => {
-  // সঠিক কলাম: customer_id
   const activeBookings = await pool.query(
     `SELECT id FROM bookings WHERE customer_id = $1 AND status = 'active'`,
     [userId]
