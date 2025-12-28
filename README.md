@@ -49,5 +49,3 @@
    - Or use the [Live Demo](https://vehicle-rental-system-ochre-mu.vercel.app/)
 
 ---
-
-For more details, see the source code and comments in each module.
